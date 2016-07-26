@@ -37,7 +37,8 @@ bool CLineCross::IsLineSegmentCross(const Point &pFirst1, const Point &pFirst2, 
 	return true;
 }
 double CLineCross::GetLineAngle(const cv::Vec4i & L1, const cv::Vec4i & L2){
-	double angle = atan((L1[1] - L1[3]) / (L1[0] - L1[2])) - atan((L2[1] - L2[3]) / (L2[0] - L2[2]));
+	double angle;
+	angle= atan((L1[1] - L1[3]) / (L1[0] - L1[2]+1e-7)) - atan((L2[1] - L2[3]) / (L2[0] - L2[2]+1e-7));
 	return angle;
 }
 bool CLineCross::GetCrossPoint(const cv::Vec4i & L1, const cv::Vec4i & L2, cv::Point &p,bool isLine)
@@ -45,7 +46,6 @@ bool CLineCross::GetCrossPoint(const cv::Vec4i & L1, const cv::Vec4i & L2, cv::P
 	Point p1, p2, q1, q2;
 	p1.x = L1[0], p1.y = L1[1]; p2.x = L1[2], p2.y = L1[3];
 	q1.x = L2[0], q1.y = L2[1]; q2.x = L2[2], q2.y = L2[3];
-	double angle = atan((p1.y - p2.y) / (p1.x - p2.x)) - atan((q1.y - q2.y) / (q1.x - q2.x));
 	long x, y;
 	if (isLine||IsRectCross(p1, p2, q1, q2) )
 	{

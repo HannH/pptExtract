@@ -12,6 +12,7 @@ public:
 	~CShowImg();
 	CShowImg * readImg(const char *winName, cv::InputArray mat);
 	void show(bool clickDN=true,bool strech=true,bool needWait=true);
+	double getScale(){ return m_Info.xScale; };
 private:
 	void stretch(int stretchMethod = 1);
 	void setNodataValue(int NodataValue, int showValue = 0);
