@@ -18,7 +18,7 @@ int main(int argc,char** argv){
 		cout << "usage: [exe] [Input image path] [output dictory] [is manual(0 or 1)]";
 		return 1;
 	}
-	strcpy(argv[1], name);
+	//strcpy(argv[1], name);
 	string name = argv[1];
 	name.replace(0, name.find_last_of('\\')+1,"");
 	name.replace(name.find_last_of('.'),name.size()+1,"");
@@ -27,10 +27,10 @@ int main(int argc,char** argv){
 	vector<Mat> rgb;
 	vector<Point> anglePoint(4);
 	int i=0;
-	{
+	if(!strcmp(argv[3],"0")){
 		split(src, rgb);
 		//影像预处理（蓝波段特征）
-		Mat preImg = rgb[0]/2 + rgb[1]/2 - rgb[2],cutImg, cutImg_clr,cutImg_gray, edge;
+		Mat preImg = rgb[0]/3 + rgb[1]/3 + rgb[2]/3,cutImg, cutImg_clr,cutImg_gray, edge;
 		threshold(preImg, cutImg_clr, 50, 255, THRESH_OTSU);
 		//cvtColor(src, hls, COLOR_RGB2HLS);
 		//split(hls, rgb);
@@ -48,7 +48,7 @@ int main(int argc,char** argv){
 			cutImg = cutImg_clr - 254 + cutImg_gray - 255;
 			break;
 		}*/
-		aaa.readImg("cut", src)->show(1, 1, 1);
+		//aaa.readImg("cut", src)->show(1, 1, 1);
 		morphologyEx(cutImg_clr, cutImg, MORPH_OPEN,
 			getStructuringElement(MORPH_RECT, Size(30, 50)), Point(-1, -1), 2);
 		//边缘检测
@@ -96,7 +96,7 @@ int main(int argc,char** argv){
 		circle(dst1, anglePoint[i], 10, Scalar(0, 0, 255), 10);
 	aaa.readImg("src", dst1)->show(1,1,0);*/
 	//空格进行人工编辑
-	if(waitKey(0)==32){
+	if (!strcmp(argv[3], "1")){
 		manual:
 		aaa.readImg(name.c_str(), src)->show(0, 1, 0);
 		Point ang;
@@ -133,6 +133,7 @@ int main(int argc,char** argv){
 	//单应点集
 	vector<Point> dstPoint(4);
 	int pptSize[2] = { 1000, 700 };
+	pptSize[0] = src.cols / 2, pptSize[1] = src.rows / 2;
 	for (i = 0; i < 4; i++){
 		switch ((anglePoint[i].x < center.x) + (anglePoint[i].y < center.y) * 2){
 		case 0:dstPoint[i] = Point(pptSize[0], pptSize[1]); break;

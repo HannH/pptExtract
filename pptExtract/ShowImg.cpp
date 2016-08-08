@@ -17,7 +17,7 @@ CShowImg* CShowImg::readImg(const char *winName, cv::InputArray mat){
 }
 bool CShowImg::getImgInfo(){
 	if (m_srcImg.size().area() == 0)	{ cerr << "input image size=0" << endl; return false; };
-	const double windowWidth = 1600, windowHeight = 900;
+	const double windowWidth = 1000, windowHeight = 750;
 	m_Info.w = m_srcImg.cols, m_Info.h = m_srcImg.rows; m_Info.dp = m_srcImg.data;
 	double k = m_srcImg.cols / windowWidth > m_srcImg.rows / windowHeight ? m_srcImg.cols / windowWidth : m_srcImg.rows / windowHeight;
 	m_Info.xScale = m_Info.yScale = k;
@@ -160,6 +160,7 @@ void CShowImg::show(bool clickDN, bool strech,bool needWait){
 	}
 	if (strech)
 		stretch();
+	cout << "shouwImg x:" << m_showImg.cols << " y:" << m_showImg.rows << endl;
 	imshow(m_pWinName, m_showImg);
 	if (clickDN)
 		setClickShowDN();
